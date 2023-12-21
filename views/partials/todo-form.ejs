@@ -12,11 +12,14 @@
     </div>
     <button
       hx-post="/todo"
+      hx-trigger="click"
       hx-include="#todo-form"
-      _="on click toggle @disabled on me until htmx:afterOnLoad"
-      class="primary w-fit ml-auto"
+      _="on click toggle @disabled on me until htmx:afterOnLoad end
+      on click toggle .hidden on the <svg/> in me until htmx:afterOnLoad end"
+      class="primary ml-auto flex gap-2 items-center"
     >
-      submit
+      <span>submit</span>
+      <%- include("./spinner.ejs") %>
     </button>
   </form>
 </div>

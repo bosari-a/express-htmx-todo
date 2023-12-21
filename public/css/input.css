@@ -26,17 +26,20 @@ form#todo-form > div.text-group > input {
 }
 /* button styles */
 button.primary {
-  @apply bg-indigo-500 text-gray-200 p-2 shadow-md rounded-md;
+  @apply bg-indigo-500 text-gray-200 p-2 shadow-md rounded-md disabled:bg-opacity-50 disabled:text-gray-400;
 }
 /* todos and todo styles */
 div.todos {
   @apply flex flex-col gap-4 w-full;
 }
 div.todo {
-  @apply flex gap-5 md:w-3/4 w-full mt-6 mx-auto;
+  @apply flex gap-4 items-center md:w-3/4 w-full mt-6 mx-auto;
+}
+div.todo > input[type="checkbox"] {
+  @apply accent-emerald-600 text-white;
 }
 div.todo > div {
-  @apply bg-indigo-500 bg-opacity-10 hover:bg-opacity-15 flex items-center p-2 w-full rounded-md;
+  @apply flex items-center bg-indigo-500 bg-opacity-10 hover:bg-opacity-15 w-full p-2 rounded-md;
 }
 div.todo > div > span {
   @apply flex-1;
@@ -45,7 +48,7 @@ div.todo > div > div.todo-icons {
   @apply flex gap-2;
 }
 div.todo > div > div.todo-icons > div {
-  @apply p-2 bg-indigo-700 rounded-full cursor-pointer bg-opacity-0 hover:bg-opacity-15;
+  @apply bg-black bg-opacity-0 hover:bg-opacity-10 p-2 rounded-full cursor-pointer;
 }
 div.todo > div > div.todo-icons > div > img {
   @apply w-5 object-scale-down;
