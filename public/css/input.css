@@ -1,0 +1,52 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+/* global */
+.wrapper {
+  @apply p-5 text-gray-900;
+}
+.link {
+  @apply text-yellow-400 underline cursor-pointer hover:text-yellow-500;
+}
+/* todo form styles */
+.todo-form-wrapper {
+  @apply w-full flex justify-center mt-6;
+}
+form#todo-form {
+  @apply flex flex-col gap-4 md:w-1/2 w-full;
+}
+form#todo-form > div.text-group {
+  @apply flex items-center;
+}
+form#todo-form > div.text-group > label {
+  @apply p-2 rounded-l-md bg-indigo-400 border border-indigo-400 text-gray-200;
+}
+form#todo-form > div.text-group > input {
+  @apply p-2 rounded-r-md bg-gray-200 border border-indigo-400 w-full;
+}
+/* button styles */
+button.primary {
+  @apply bg-indigo-500 text-gray-200 p-2 shadow-md rounded-md;
+}
+/* todos and todo styles */
+div.todos {
+  @apply flex flex-col gap-4 w-full;
+}
+div.todo {
+  @apply flex gap-5 md:w-3/4 w-full mt-6 mx-auto;
+}
+div.todo > div {
+  @apply bg-indigo-500 bg-opacity-10 hover:bg-opacity-15 flex items-center p-2 w-full rounded-md;
+}
+div.todo > div > span {
+  @apply flex-1;
+}
+div.todo > div > div.todo-icons {
+  @apply flex gap-2;
+}
+div.todo > div > div.todo-icons > div {
+  @apply p-2 bg-indigo-700 rounded-full cursor-pointer bg-opacity-0 hover:bg-opacity-15;
+}
+div.todo > div > div.todo-icons > div > img {
+  @apply w-5 object-scale-down;
+}

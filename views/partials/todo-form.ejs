@@ -1,0 +1,22 @@
+<div class="todo-form-wrapper">
+  <form id="todo-form" hx-on::after-on-load="this.reset()">
+    <div class="text-group">
+      <label for="todo">Todo</label>
+      <input
+        type="text"
+        placeholder="add todo..."
+        name="todo"
+        id="todo"
+        required
+      />
+    </div>
+    <button
+      hx-post="/todo"
+      hx-include="#todo-form"
+      _="on click toggle @disabled on me until htmx:afterOnLoad"
+      class="primary w-fit ml-auto"
+    >
+      submit
+    </button>
+  </form>
+</div>
