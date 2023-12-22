@@ -1,15 +1,21 @@
 import { Router } from "express";
-import { getAllTodos, getAllTodosMiddleware } from "../controllers/todos";
+import {
+  getAllTodos,
+  getAllTodosMiddleware,
+  postATodo,
+  postATodoMiddleware,
+} from "../controllers/todos";
 
 const todosRouter = Router();
 
-// middleware for GET "/"
+// middleware for GET
 todosRouter.get("/", getAllTodosMiddleware);
-// response for GET "/"
+// response for GET
 todosRouter.get("/", getAllTodos);
 
-// response for POST "/"
-todosRouter.post("/")
-
+// middleware for POST
+todosRouter.post("/", postATodoMiddleware);
+// response for POST
+todosRouter.post("/", postATodo);
 
 export default todosRouter;

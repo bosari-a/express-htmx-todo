@@ -11,8 +11,9 @@
       />
     </div>
     <button
-      hx-post="/todo"
-      hx-trigger="click"
+      hx-post="/todos"
+      hx-target="#todos"
+      hx-swap="afterbegin"
       hx-include="#todo-form"
       _="on click toggle @disabled on me until htmx:afterOnLoad end
       on click toggle .hidden on the <svg/> in me until htmx:afterOnLoad end"
