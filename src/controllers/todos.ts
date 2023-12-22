@@ -22,10 +22,19 @@ export function getAllTodosMiddleware(
       res.locals = { todos: [] };
       next();
     } else if (data) {
-      todosModel.find({ sessionId: req.sessionID }).then((todos) => {
-        res.locals = { todos };
-        next();
-      });
+      todosModel
+        .find({ sessionId: req.sessionID })
+        .sort({ createdAt: -1 })
+        .then((todos) => {
+          res.locals = {
+            todos: todos,
+          };
+          next();
+        })
+        .catch((err) => {
+          console.log(err);
+          res.status(500).send("500: Server error, could not fetch db");
+        });
     }
   });
 }
@@ -61,7 +70,7 @@ export function postATodoMiddleware(
     })
     .catch((err) => {
       console.log(err);
-      res.status(500).send("Error: could not create todo :(");
+      res.status(400).header({ "HX-Reswap": "innerHTML" }).send(err.message);
     });
 }
 /**

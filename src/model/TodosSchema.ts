@@ -13,5 +13,5 @@ export default new Schema(
       expires: maxAge / 1000,
     },
   },
-  { collection: "todos" }
+  { collection: "todos", timestamps: true }
 );

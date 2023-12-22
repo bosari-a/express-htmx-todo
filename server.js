@@ -25,7 +25,7 @@ var TodosSchema = new Schema({
         default: Date.now(),
         expires: maxAge / 1000,
     },
-}, { collection: "todos" });
+}, { collection: "todos", timestamps: true });
 
 var todosModel = model("todos", TodosSchema, "todos");
 
@@ -47,9 +47,18 @@ function getAllTodosMiddleware(req, res, next) {
             next();
         }
         else if (data) {
-            todosModel.find({ sessionId: req.sessionID }).then((todos) => {
-                res.locals = { todos };
+            todosModel
+                .find({ sessionId: req.sessionID })
+                .sort({ createdAt: -1 })
+                .then((todos) => {
+                res.locals = {
+                    todos: todos,
+                };
                 next();
+            })
+                .catch((err) => {
+                console.log(err);
+                res.status(500).send("500: Server error, could not fetch db");
             });
         }
     });
@@ -79,7 +88,7 @@ function postATodoMiddleware(req, res, next) {
     })
         .catch((err) => {
         console.log(err);
-        res.status(500).send("Error: could not create todo :(");
+        res.status(400).header({ "HX-Reswap": "innerHTML" }).send(err.message);
     });
 }
 /**

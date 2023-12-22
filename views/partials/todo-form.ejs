@@ -1,16 +1,16 @@
 <div class="todo-form-wrapper">
-  <form id="todo-form" hx-on::after-on-load="this.reset()">
+  <form
+    id="todo-form"
+    hx-on::after-on-load="if(event.detail.xhr.status===200){this.reset();
+        htmx.find(this,'#error').innerHTML=''}"
+  >
     <div class="text-group">
       <label for="todo">Todo</label>
-      <input
-        type="text"
-        placeholder="add todo..."
-        name="todo"
-        id="todo"
-        required
-      />
+      <input type="text" placeholder="add todo..." name="todo" id="todo" />
     </div>
+    <div id="error"></div>
     <button
+      hx-target-error="#error"
       hx-post="/todos"
       hx-target="#todos"
       hx-swap="afterbegin"
