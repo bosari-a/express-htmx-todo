@@ -222,6 +222,10 @@ const app = express();
 // mongodb connection
 const clientP = connect(connString, { dbName: "todo" }).then((m) => {
     console.log("\x1b[35mConnected to db\x1b[0m");
+    // listen to server at port
+    app.listen(port, () => {
+        console.log(`\x1b[33mhttp://localhost:${port}\x1b[0m`);
+    });
     return m.connection.getClient();
 });
 // dev middleware
@@ -249,7 +253,3 @@ app.use(session({
 }));
 // routes
 app.use("/todos", todosRouter);
-// listen to server at port
-app.listen(port, () => {
-    console.log(`\x1b[33mhttp://localhost:${port}\x1b[0m`);
-});
