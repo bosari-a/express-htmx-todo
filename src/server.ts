@@ -51,4 +51,4 @@ app.use(
 );
 
 // routes
-app.use("/todos", todosRouter);
+app.use("/", todosRouter);

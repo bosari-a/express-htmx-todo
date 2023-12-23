@@ -252,4 +252,4 @@ app.use(session({
     }),
 }));
 // routes
-app.use("/todos", todosRouter);
+app.use("/", todosRouter);

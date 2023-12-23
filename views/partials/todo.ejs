@@ -15,7 +15,7 @@
         <img src="/assets/editpenicon.svg" alt="edit pen icon svg image" />
       </div>
       <div
-        hx-delete="/todos"
+        hx-delete="/"
         hx-target="#todo-<%= todo._id %>"
         hx-swap="outerHTML"
         hx-vals="js:{_id:'<%= todo._id %>'}"

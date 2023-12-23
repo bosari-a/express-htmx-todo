@@ -1,7 +1,7 @@
 <form
   autocomplete="off"
   class="hidden"
-  hx-patch="/todos"
+  hx-patch="/"
   hx-target="#todo-<%= todo._id.toString() %>"
   hx-swap="outerHTML"
   hx-include="#todo-<%= todo._id.toString() %> > div > form"
