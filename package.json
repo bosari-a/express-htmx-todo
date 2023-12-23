@@ -8,7 +8,6 @@
     "start": "node server.js",
     "dev": "rollup -c --watch & nodemon server.js",
     "bundle": "rollup -c --watch",
-    "build": "rollup -c",
     "tailwind": "npx tailwind -i ./public/css/input.css -o ./public/css/index.css --watch"
   },
   "keywords": [],
