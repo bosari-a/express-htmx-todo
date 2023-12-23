@@ -4,14 +4,7 @@ import todosRouter from "./routes/todos";
 import session from "express-session";
 import MongoStore from "connect-mongo";
 import morgan from "morgan";
-import {
-  connString,
-  maxAge,
-  port,
-  sameSite,
-  secure,
-  secret,
-} from "./utils/constants";
+import { connString, maxAge, port, secret } from "./utils/constants";
 // app initialization
 const app = express();
 
@@ -32,8 +25,8 @@ app.use(express.urlencoded({ extended: true }));
 app.use(
   session({
     cookie: {
-      sameSite: sameSite,
-      secure: secure,
+      sameSite: "lax",
+      secure: false,
       maxAge: maxAge,
     },
     secret: secret,

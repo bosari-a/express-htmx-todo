@@ -45,8 +45,6 @@ config();
 const port = process.env.PORT;
 const connString = process.env.ENV === "DEV" ? process.env.DEV_CONN : process.env.PROD_CONN;
 const secret = process.env.COOKIE_SECRET;
-const secure = process.env.ENV === "DEV" ? false : true;
-const sameSite = process.env.ENV === "DEV" ? "lax" : true;
 /** This value is in miliseconds */
 const maxAge = 1000 * 60 * 60 * 24;
 
@@ -235,8 +233,8 @@ app.use(express.static("./public"));
 app.use(express.urlencoded({ extended: true }));
 app.use(session({
     cookie: {
-        sameSite: sameSite,
-        secure: secure,
+        sameSite: "lax",
+        secure: false,
         maxAge: maxAge,
     },
     secret: secret,
