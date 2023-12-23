@@ -3,6 +3,7 @@ import { connect } from "mongoose";
 import todosRouter from "./routes/todos";
 import session from "express-session";
 import MongoStore from "connect-mongo";
+import morgan from "morgan";
 import {
   connString,
   maxAge,
@@ -19,7 +20,8 @@ const clientP = connect(connString!, { dbName: "todo" }).then((m) => {
   console.log("\x1b[35mConnected to db\x1b[0m");
   return m.connection.getClient();
 });
-
+// dev middleware
+app.use(morgan("dev"));
 // middleware
 app.use(express.static("./public"));
 app.use(express.urlencoded({ extended: true }));
@@ -38,7 +40,8 @@ app.use(
       dbName: "todo",
       stringify: false,
       autoRemove: "interval",
-      autoRemoveInterval: 10,
+      autoRemoveInterval: maxAge / 60000,
+      ttl: maxAge / 1000,
     }),
   })
 );

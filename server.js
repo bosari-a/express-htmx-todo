@@ -4,6 +4,41 @@ import ejs from 'ejs';
 import { config } from 'dotenv';
 import session from 'express-session';
 import MongoStore from 'connect-mongo';
+import morgan from 'morgan';
+
+/******************************************************************************
+Copyright (c) Microsoft Corporation.
+
+Permission to use, copy, modify, and/or distribute this software for any
+purpose with or without fee is hereby granted.
+
+THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH
+REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY
+AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT,
+INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR
+OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
+PERFORMANCE OF THIS SOFTWARE.
+***************************************************************************** */
+/* global Reflect, Promise, SuppressedError, Symbol */
+
+
+function __rest(s, e) {
+    var t = {};
+    for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
+        t[p] = s[p];
+    if (s != null && typeof Object.getOwnPropertySymbols === "function")
+        for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
+            if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i]))
+                t[p[i]] = s[p[i]];
+        }
+    return t;
+}
+
+typeof SuppressedError === "function" ? SuppressedError : function (error, suppressed, message) {
+    var e = new Error(message);
+    return e.name = "SuppressedError", e.error = error, e.suppressed = suppressed, e;
+};
 
 config();
 /** global constants declaration */
@@ -79,11 +114,17 @@ function getAllTodos(req, res) {
         res.status(500).send("500: Server error");
     });
 }
+/**
+ *
+ * @param req
+ * @param res
+ * @param next
+ */
 function postATodoMiddleware(req, res, next) {
     todosModel
         .create(Object.assign(Object.assign({}, req.body), { sessionId: req.sessionID }))
         .then((todo) => {
-        res.locals = { todo };
+        res.locals = { todo: todo.toObject() };
         next();
     })
         .catch((err) => {
@@ -107,6 +148,58 @@ function postATodo(req, res) {
         res.status(500).send("Error: could not create todo template :(");
     });
 }
+/**
+ *
+ * @param req
+ * @param res
+ */
+function patchATodoMiddleware(req, res, next) {
+    const _a = req.body, { _id } = _a, update = __rest(_a, ["_id"]);
+    todosModel
+        .findOneAndUpdate({ _id }, update, { new: true })
+        .then((updatedTodo) => {
+        if (!updatedTodo)
+            throw Error("could not update todo :(");
+        res.locals = { todo: updatedTodo.toObject() };
+        next();
+    })
+        .catch((err) => {
+        res
+            .status(400)
+            .header({ "HX-Refresh": true })
+            .send(err.message || "an error occurred while updating todo");
+    });
+}
+/**
+ *
+ * @param req
+ * @param res
+ */
+function patchATodo(req, res) {
+    if (req.body.todo)
+        ejs
+            .renderFile("./views/partials/todo.ejs", { todo: res.locals.todo })
+            .then((html) => {
+            res.status(200).send(html);
+        })
+            .catch((err) => {
+            res.status(500).send(err.message || "Server error");
+        });
+    else if (req.body.done)
+        res.status(200).end();
+}
+function deleteATodo(req, res) {
+    todosModel
+        .findByIdAndDelete({ _id: req.body._id })
+        .then((deleted) => {
+        if (!deleted)
+            throw Error("could not delete document :(");
+        res.status(200).send("");
+    })
+        .catch((err) => {
+        res.status(400).send(err.message || "could not delete document :(");
+    });
+}
 
 const todosRouter = Router();
 // middleware for GET
@@ -117,6 +210,12 @@ todosRouter.get("/", getAllTodos);
 todosRouter.post("/", postATodoMiddleware);
 // response for POST
 todosRouter.post("/", postATodo);
+// middleware for PATCH
+todosRouter.patch("/", patchATodoMiddleware);
+// response for PATCH
+todosRouter.patch("/", patchATodo);
+// response for DELETE
+todosRouter.delete("/", deleteATodo);
 
 // app initialization
 const app = express();
@@ -125,6 +224,8 @@ const clientP = connect(connString, { dbName: "todo" }).then((m) => {
     console.log("\x1b[35mConnected to db\x1b[0m");
     return m.connection.getClient();
 });
+// dev middleware
+app.use(morgan("dev"));
 // middleware
 app.use(express.static("./public"));
 app.use(express.urlencoded({ extended: true }));
@@ -142,7 +243,8 @@ app.use(session({
         dbName: "todo",
         stringify: false,
         autoRemove: "interval",
-        autoRemoveInterval: 10,
+        autoRemoveInterval: maxAge / 60000,
+        ttl: maxAge / 1000,
     }),
 }));
 // routes

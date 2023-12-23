@@ -1,7 +1,10 @@
 import { Router } from "express";
 import {
+  deleteATodo,
   getAllTodos,
   getAllTodosMiddleware,
+  patchATodo,
+  patchATodoMiddleware,
   postATodo,
   postATodoMiddleware,
 } from "../controllers/todos";
@@ -17,5 +20,14 @@ todosRouter.get("/", getAllTodos);
 todosRouter.post("/", postATodoMiddleware);
 // response for POST
 todosRouter.post("/", postATodo);
+
+// middleware for PATCH
+todosRouter.patch("/", patchATodoMiddleware);
+
+// response for PATCH
+todosRouter.patch("/", patchATodo);
+
+// response for DELETE
+todosRouter.delete("/", deleteATodo);
 
 export default todosRouter;

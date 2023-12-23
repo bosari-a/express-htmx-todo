@@ -1,22 +1,25 @@
-<div class="todo">
-  <input
-    class="peer"
-    type="checkbox"
-    name="done"
-    _="on load if <%- todo.done %> set my.checked to true else set my.checked to false end
-    on load if my.checked hide <div:nth-child(1)/> in .todo-icons in closest parent <div/> else
-      show <div:nth-child(1)/> in .todo-icons in closest parent <div/> end
-      on click toggle *display of <div:nth-child(1)/> in .todo-icons in closest parent <div/> end"
-  />
+<div id="<%= 'todo-' + todo._id.toString() %>" class="todo">
+  <%- include("./todo-check.ejs", { todo }) %>
   <div
     class="peer-checked:bg-emerald-400 peer-checked:text-gray-200 peer-checked:line-through"
   >
-    <span><%= todo.todo %></span>
+    <span _="on foo log 'bar'"><%= todo.todo %></span>
+    <%- include("./edit-form.ejs", { todo }) %>
     <div class="todo-icons">
-      <div>
+      <div
+        _="on click toggle .hidden on (<span/> in #todo-<%= todo._id.toString() %>) end
+        on click toggle .hidden on (<form/> in #todo-<%= todo._id.toString() %>) end
+        on click toggle .flex on (<form/> in #todo-<%= todo._id.toString() %>) end
+        on click toggle .hidden on <#todo-<%= todo._id.toString() %> > input[type='checkbox']/>"
+      >
         <img src="/assets/editpenicon.svg" alt="edit pen icon svg image" />
       </div>
-      <div>
+      <div
+        hx-delete="/todos"
+        hx-target="#todo-<%= todo._id %>"
+        hx-swap="outerHTML"
+        hx-vals="js:{_id:'<%= todo._id %>'}"
+      >
         <img src="/assets/deletetrashcan.svg" alt="trash can icon svg image" />
       </div>
     </div>

@@ -1,0 +1,19 @@
+<form
+  autocomplete="off"
+  class="hidden"
+  hx-patch="/todos"
+  hx-target="#todo-<%= todo._id.toString() %>"
+  hx-swap="outerHTML"
+  hx-include="#todo-<%= todo._id.toString() %> > div > form"
+>
+  <input
+    _="on htmx:validation:failed log my.value"
+    required
+    value="<%= todo.todo %>"
+    placeholder="edit todo..."
+    type="text"
+    name="todo"
+  />
+  <input type="hidden" name="_id" value="<%= todo._id.toString() %>" />
+  <button>Edit</button>
+</form>

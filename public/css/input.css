@@ -1,6 +1,11 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+/* reset */
+body,
+html {
+  @apply min-h-screen flex flex-col;
+}
 /* global */
 .wrapper {
   @apply p-5 text-gray-900;
@@ -42,7 +47,7 @@ div.todo > div {
   @apply flex items-center bg-indigo-500 bg-opacity-10 hover:bg-opacity-15 w-full p-2 rounded-md;
 }
 div.todo > div > span {
-  @apply flex-1;
+  @apply flex-1 p-2;
 }
 div.todo > div > div.todo-icons {
   @apply flex gap-2;
@@ -52,4 +57,26 @@ div.todo > div > div.todo-icons > div {
 }
 div.todo > div > div.todo-icons > div > img {
   @apply w-5 object-scale-down;
+}
+div.todo > div > form {
+  @apply flex-1;
+}
+div.todo > div > form > input {
+  @apply md:w-1/2 w-3/4 p-2 border border-indigo-300 rounded-l-md bg-gray-200;
+}
+div.todo > div > form > button {
+  @apply bg-indigo-500 rounded-r-md px-3 text-center text-gray-200 hover:bg-opacity-75;
+}
+/* footer styles */
+footer {
+  @apply mt-auto flex flex-col items-center gap-5 p-2 bg-indigo-100;
+}
+footer > h1 {
+  @apply text-indigo-600 font-semibold text-xl font-mono;
+}
+footer > div {
+  @apply flex gap-10;
+}
+footer img {
+  @apply w-10 object-scale-down;
 }

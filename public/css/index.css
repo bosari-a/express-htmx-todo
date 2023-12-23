@@ -650,6 +650,15 @@ video {
   opacity: 0.75;
 }
 
+/* reset */
+
+body,
+html {
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+}
+
 /* global */
 
 .wrapper {
@@ -789,6 +798,7 @@ div.todo > div:hover {
 
 div.todo > div > span {
   flex: 1 1 0%;
+  padding: 0.5rem;
 }
 
 div.todo > div > div.todo-icons {
@@ -810,6 +820,77 @@ div.todo > div > div.todo-icons > div:hover {
 
 div.todo > div > div.todo-icons > div > img {
   width: 1.25rem;
+  -o-object-fit: scale-down;
+     object-fit: scale-down;
+}
+
+div.todo > div > form {
+  flex: 1 1 0%;
+}
+
+div.todo > div > form > input {
+  width: 75%;
+  border-top-left-radius: 0.375rem;
+  border-bottom-left-radius: 0.375rem;
+  border-width: 1px;
+  --tw-border-opacity: 1;
+  border-color: rgb(165 180 252 / var(--tw-border-opacity));
+  --tw-bg-opacity: 1;
+  background-color: rgb(229 231 235 / var(--tw-bg-opacity));
+  padding: 0.5rem;
+}
+
+@media (min-width: 768px) {
+  div.todo > div > form > input {
+    width: 50%;
+  }
+}
+
+div.todo > div > form > button {
+  border-top-right-radius: 0.375rem;
+  border-bottom-right-radius: 0.375rem;
+  --tw-bg-opacity: 1;
+  background-color: rgb(99 102 241 / var(--tw-bg-opacity));
+  padding-left: 0.75rem;
+  padding-right: 0.75rem;
+  text-align: center;
+  --tw-text-opacity: 1;
+  color: rgb(229 231 235 / var(--tw-text-opacity));
+}
+
+div.todo > div > form > button:hover {
+  --tw-bg-opacity: 0.75;
+}
+
+/* footer styles */
+
+footer {
+  margin-top: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.25rem;
+  --tw-bg-opacity: 1;
+  background-color: rgb(224 231 255 / var(--tw-bg-opacity));
+  padding: 0.5rem;
+}
+
+footer > h1 {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  font-size: 1.25rem;
+  line-height: 1.75rem;
+  font-weight: 600;
+  --tw-text-opacity: 1;
+  color: rgb(79 70 229 / var(--tw-text-opacity));
+}
+
+footer > div {
+  display: flex;
+  gap: 2.5rem;
+}
+
+footer img {
+  width: 2.5rem;
   -o-object-fit: scale-down;
      object-fit: scale-down;
 }
